@@ -19,3 +19,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 
 module.exports = app;
+
+// const capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+// capitalize("WhaTeveR");
