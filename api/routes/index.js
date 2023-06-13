@@ -42,15 +42,21 @@ router.get('/tickets', (req, res) => {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   }
 
+  if (!req.query.hasOwnProperty('departure')) return res.json({ error: 'departure not inserted' })
+  if (!req.query.hasOwnProperty('arrival')) return res.json({ error: 'arrival not inserted' })
+  if (!req.query.hasOwnProperty('date')) return res.json({ error: 'arrival not inserted' })
+
   const departure = capitalize(req.query.departure)
   const arrival = capitalize(req.query.arrival)
+  const date = req.query.date
 
-  client.query('SELECT * FROM public.tickets WHERE departure = $1 AND arrival = $2 ORDER BY id ASC', [departure , arrival])
+  client.query('SELECT * FROM public.tickets WHERE departure = $1 AND arrival = $2 AND date::date = $3 ORDER BY id ASC', [departure , arrival, date])
   .then(data => {
     res.json(data.rows);
   })
   .catch(error => {
     res.json({ error: true, message: error });
+    
   })
 });
 
